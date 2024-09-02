@@ -1,90 +1,80 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class TerrainGenerator : MonoBehaviour
 {
-    public int xSize = 10;
-    public int zSize = 10;
-    public float noiseScale = 0.5f;
-    public float quadSize = 10f;
+    public int chunkSize = 16;
+    public int terrainSize = 64;
+    public float heightScale = 5f;
+    public float noiseScale = 20f;
 
-    Mesh mesh;
-    Vector3[] vertices;
-    int[] triangles;
+    private Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
 
-    MeshCollider meshCollider;
+
 
     void Start()
     {
-        mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
-
-        GenerateShape();
-        UpdateMesh();
-
-        Material material = GetComponent<Material>();
-        if (material == null)
-        {
-             material = new Material(Shader.Find("Standard"));
-
-        }
-
-        Vector3 colorV = new Vector3(146f, 255f, 107f).normalized;
-        material.color = new Color(colorV.x,colorV.y,colorV.z);
-        GetComponent<MeshRenderer>().material = material;
-
-        meshCollider = GetComponent<MeshCollider>();
-
-        meshCollider.sharedMesh = mesh;
+        GenerateTerrain();
     }
 
-    void GenerateShape()
+    void GenerateTerrain()
     {
+        int numChunks = terrainSize / chunkSize;
 
-        vertices = new Vector3[(xSize + 1) * (zSize + 1)];
-        triangles = new int[xSize * zSize * 6];
-
-        for (int i = 0, z = 0; z <= zSize; z++)
+        for (int x = 0; x < numChunks; x++)
         {
-            for (int x = 0; x <= xSize; x++)
+            for (int z = 0; z < numChunks; z++)
             {
-                float y = Mathf.PerlinNoise(x * noiseScale, z * noiseScale) * 3f;
-                
-                vertices[i++] = new Vector3(x * quadSize, y, z * quadSize);
+                Vector2Int chunkCoord = new Vector2Int(x, z);
+                Mesh chunkMesh = GenerateChunk(chunkCoord);
+                terrainChunks.Add(chunkCoord, new Chunk(chunkCoord));
+            }
+        }
+    }
+
+    public Mesh GenerateChunk(Vector2 chunkCoord)
+    {
+        Vector3[] vertices = new Vector3[(chunkSize + 1) * (chunkSize + 1)];
+        int[] triangles = new int[chunkSize * chunkSize * 6];
+        Vector2[] uvs = new Vector2[vertices.Length];
+
+        for (int i = 0, z = 0; z <= chunkSize; z++)
+        {
+            for (int x = 0; x <= chunkSize; x++, i++)
+            {
+                float y = Mathf.PerlinNoise((x + chunkCoord.x * chunkSize) / noiseScale, (z + chunkCoord.y * chunkSize) / noiseScale) * heightScale;
+                vertices[i] = new Vector3(x, y, z);
+                uvs[i] = new Vector2((float)x / chunkSize, (float)z / chunkSize);
             }
         }
 
         int vert = 0;
         int tris = 0;
-        for (int x = 0; x < xSize; x++)
+        for (int z = 0; z < chunkSize; z++)
         {
-            for (int z = 0; z < zSize; z++)
+            for (int x = 0; x < chunkSize; x++)
             {
                 triangles[tris + 0] = vert + 0;
-                triangles[tris + 1] = vert + xSize + 1;
+                triangles[tris + 1] = vert + chunkSize + 1;
                 triangles[tris + 2] = vert + 1;
-
                 triangles[tris + 3] = vert + 1;
-                triangles[tris + 4] = vert + xSize + 1;
-                triangles[tris + 5] = vert + xSize + 2;
+                triangles[tris + 4] = vert + chunkSize + 1;
+                triangles[tris + 5] = vert + chunkSize + 2;
 
                 vert++;
                 tris += 6;
             }
             vert++;
         }
-    }
 
-    void UpdateMesh()
-    {
-        mesh.Clear();
+        Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.uv = uvs;
         mesh.RecalculateNormals();
+
+        return mesh;
     }
-
-
-}
+}  
