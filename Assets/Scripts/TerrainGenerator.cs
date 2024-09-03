@@ -10,16 +10,16 @@ public class TerrainGenerator : MonoBehaviour
 
     void Start()
     {
-        GenerateTerrain();
+       GenerateTerrain();
     }
 
     void GenerateTerrain()
     {
-        int numChunks = worldPreRenderSizie / chunkSize;
+        int numChunks = worldPreRenderSizie / chunkSize /2;
 
-        for (int x = 0; x < numChunks; x++)
+        for (int x = -numChunks; x < numChunks; x++)
         {
-            for (int z = 0; z < numChunks; z++)
+            for (int z = -numChunks; z < numChunks; z++)
             {
                 Vector2Int chunkCoord = new Vector2Int(x, z);
                 Mesh chunkMesh = GenerateChunk(chunkCoord);

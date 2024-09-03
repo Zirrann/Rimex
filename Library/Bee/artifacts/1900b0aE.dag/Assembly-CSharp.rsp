@@ -359,6 +359,7 @@
 "Assets/Scripts/ChunkManager.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/TerrainGenerator.cs"
+"Assets/Scripts/Utils/Properties.cs"
 -langversion:9.0
 /deterministic
 /optimize+
