@@ -1,18 +1,12 @@
 using UnityEngine;
+using static Properties;
 
 using System.Collections.Generic;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class TerrainGenerator : MonoBehaviour
 {
-    public int chunkSize = 16;
-    public int terrainSize = 64;
-    public float heightScale = 5f;
-    public float noiseScale = 20f;
-
-    private Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
-
-
+    public Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
 
     void Start()
     {
@@ -21,7 +15,7 @@ public class TerrainGenerator : MonoBehaviour
 
     void GenerateTerrain()
     {
-        int numChunks = terrainSize / chunkSize;
+        int numChunks = worldPreRenderSizie / chunkSize;
 
         for (int x = 0; x < numChunks; x++)
         {
@@ -34,7 +28,7 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-    public Mesh GenerateChunk(Vector2 chunkCoord)
+    public static Mesh GenerateChunk(Vector2 chunkCoord)
     {
         Vector3[] vertices = new Vector3[(chunkSize + 1) * (chunkSize + 1)];
         int[] triangles = new int[chunkSize * chunkSize * 6];

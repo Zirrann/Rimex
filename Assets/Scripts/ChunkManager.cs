@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static Properties;
 public class ChunkManager : MonoBehaviour
 {
-    public int renderDistance = 5;
     public Transform player;
-    public int chunkSize = 16;
+
+    private float checkInterval = 1f;
 
     private Dictionary<Vector2Int, Chunk> loadedChunks = new Dictionary<Vector2Int, Chunk>();
     private Dictionary<Vector2Int, Chunk> unloadedChunks = new Dictionary<Vector2Int, Chunk>();
+
 
     void Update()
     {

@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|c:\\users\\ja\\onedrive - politechnika warszawska\\pulpit\\unitylab\\rimex\\assets\\scripts\\chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\assets\\scripts\\chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\chunkmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|c:\\users\\ja\\onedrive - politechnika warszawska\\pulpit\\unitylab\\rimex\\assets\\scripts\\terraingenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\assets\\scripts\\terraingenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\terraingenerator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\assets\\scripts\\chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\chunk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|c:\\users\\ja\\onedrive - politechnika warszawska\\pulpit\\unitylab\\rimex\\assets\\scripts\\utils\\properties.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07EC726C-6A73-3D58-9356-75E7114F6CF0}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\utils\\properties.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
@@ -32,7 +36,7 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\Chunk.cs",
               "ToolTip": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\Chunk.cs",
               "RelativeToolTip": "Assets\\Scripts\\Chunk.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAnAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-02T17:40:45.882Z",
               "IsPinned": true,
@@ -40,15 +44,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ChunkManager.cs",
-              "DocumentMoniker": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\ChunkManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\ChunkManager.cs",
-              "ToolTip": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\ChunkManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\ChunkManager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFMAAAAtAAAA",
+              "DocumentIndex": 3,
+              "Title": "Properties.cs",
+              "DocumentMoniker": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\Utils\\Properties.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Utils\\Properties.cs",
+              "ToolTip": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\Utils\\Properties.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Utils\\Properties.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-02T17:56:38.123Z",
+              "WhenOpened": "2024-09-03T11:12:16.067Z",
               "EditorCaption": ""
             },
             {
@@ -59,9 +63,22 @@
               "RelativeDocumentMoniker": "Assets\\Scripts\\TerrainGenerator.cs",
               "ToolTip": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\TerrainGenerator.cs",
               "RelativeToolTip": "Assets\\Scripts\\TerrainGenerator.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAJAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-02T11:50:18.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ChunkManager.cs",
+              "DocumentMoniker": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\ChunkManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ChunkManager.cs",
+              "ToolTip": "C:\\Users\\Ja\\OneDrive - Politechnika Warszawska\\Pulpit\\UnityLab\\Rimex\\Assets\\Scripts\\ChunkManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ChunkManager.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-02T17:56:38.123Z",
               "EditorCaption": ""
             }
           ]
