@@ -2,11 +2,13 @@ using UnityEngine;
 using static Properties;
 
 using System.Collections.Generic;
+using System;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class TerrainGenerator : MonoBehaviour
 {
     public Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
+
 
     void Start()
     {
@@ -15,11 +17,12 @@ public class TerrainGenerator : MonoBehaviour
 
     void GenerateTerrain()
     {
-        int numChunks = worldPreRenderSizie / chunkSize /2;
+        Debug.Log(chunkSize);
+        int numChunks = worldSize / chunkSize;
 
-        for (int x = -numChunks; x < numChunks; x++)
+        for (int x = 0; x < numChunks; x++)
         {
-            for (int z = -numChunks; z < numChunks; z++)
+            for (int z = 0; z < numChunks; z++)
             {
                 Vector2Int chunkCoord = new Vector2Int(x, z);
                 Mesh chunkMesh = GenerateChunk(chunkCoord);
@@ -38,7 +41,8 @@ public class TerrainGenerator : MonoBehaviour
         {
             for (int x = 0; x <= chunkSize; x++, i++)
             {
-                float y = Mathf.PerlinNoise((x + chunkCoord.x * chunkSize) / noiseScale, (z + chunkCoord.y * chunkSize) / noiseScale) * heightScale;
+
+                float y = GetNoiceValue(x + chunkCoord.x * chunkSize, z + chunkCoord.y * chunkSize);
                 vertices[i] = new Vector3(x, y, z);
                 uvs[i] = new Vector2((float)x / chunkSize, (float)z / chunkSize);
             }
@@ -70,5 +74,28 @@ public class TerrainGenerator : MonoBehaviour
         mesh.RecalculateNormals();
 
         return mesh;
+    }
+
+
+    private static float GetNoiceValue(float x, float y) {
+
+        x = x / worldSize;
+        y = y / worldSize;
+
+        float noice = 0;
+        float ocatave = firstOctaceValue;
+        float n = 0;
+
+        for (int i = 0; i < octaves; i++) 
+        {
+            noice += Mathf.PerlinNoise(ocatave * x * frequencyScale, ocatave * y * frequencyScale) * heightScale / ocatave;
+            n += 1 / ocatave;
+            ocatave *= 2;
+            
+        }
+
+        noice = noice / n;
+
+        return (float)Math.Pow(noice, exp) - heightScale/2;
     }
 }  

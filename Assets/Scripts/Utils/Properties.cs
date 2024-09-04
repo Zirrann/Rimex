@@ -1,11 +1,24 @@
 using UnityEngine;
 public static class Properties
 {
-    public static int chunkSize = 50;
-    public static int worldPreRenderSizie = 1000;
-    public static int renderDistance = 10;
+    private static PropertiesData _instance;
 
-    public static float heightScale = 5f;
-    public static float noiseScale = 20f;
+    public static void Initialize(PropertiesData instance)
+    {
+        _instance = instance;
+    }
+
+    public static int chunkSize => _instance.chunkSize;
+    public static int worldSize => _instance.worldSize;
+    public static int renderDistance => _instance.renderDistance;
+
+
+
+    public static float firstOctaceValue => _instance.firstOctaceValue;
+    public static float exp => _instance.exp;
+    public static ushort octaves => _instance.octaves;
+    public static float frequencyScale => _instance.frequencyScale;
+
+    public static float heightScale => _instance.heightScale;
 }
 

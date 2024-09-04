@@ -357,9 +357,12 @@
 "Assets/Scripts/CameraMove.cs"
 "Assets/Scripts/Chunk.cs"
 "Assets/Scripts/ChunkManager.cs"
+"Assets/Scripts/Dig.cs"
+"Assets/Scripts/GameInitializer.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/TerrainGenerator.cs"
 "Assets/Scripts/Utils/Properties.cs"
+"Assets/Scripts/Utils/PropetiesData.cs"
 -langversion:9.0
 /deterministic
 /optimize+

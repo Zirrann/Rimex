@@ -16,7 +16,7 @@ public class Chunk
 
         chunkObject = new GameObject($"Chunk_{chunkCoord.x}_{chunkCoord.y}");
         chunkObject.tag = "Chunk";
-        chunkObject.transform.position = new Vector3(chunkCoord.x * chunkSize, 0, chunkCoord.y * chunkSize);
+        chunkObject.transform.position = new Vector3(chunkCoord.x * chunkSize - worldSize / 2, 0, chunkCoord.y * chunkSize - worldSize / 2);
 
         chunkObject.AddComponent<MeshFilter>().mesh = terrain;
         chunkObject.AddComponent<MeshRenderer>().material = new Material(Shader.Find("Standard"));
