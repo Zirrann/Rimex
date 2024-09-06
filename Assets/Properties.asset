@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9377e1a05378d3f43ac27edd131b2b76, type: 3}
   m_Name: Properties
   m_EditorClassIdentifier: 
-  chunkSize: 25
-  worldSize: 250
-  renderDistance: 0
-  octaves: 3
-  exp: 0.9
-  firstOctaceValue: 8
-  frequencyScale: 4
+  chunkSize: 10
+  worldSize: 300
+  renderDistance: 10
+  octaves: 1
+  exp: 1.36
+  firstOctaceValue: 2
+  frequencyScale: 2
   heightScale: 50
