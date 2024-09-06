@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 using static Properties;
 
 using System.Collections.Generic;
@@ -99,16 +99,16 @@ public class TerrainGenerator : MonoBehaviour
 
         for (int i = 0; i < octavesCount; i++)
         {
-            noice += Mathf.PerlinNoise(x * frequencyScale * ocatave, y * frequencyScale * ocatave) * heightScale / ocatave;
+            noice += Mathf.PerlinNoise(x * frequencyScale * ocatave, y * frequencyScale * ocatave)  / ocatave;
             n += 1 / ocatave;
             ocatave *= 2;
 
         }
 
         noice = noice / n;
-        noice = (float)Math.Pow(noice, exp) - heightScale / 2;
+        noice = (float)Math.Pow(noice, exp) - 0.5f;
 
-        return noice;
+        return noice * heightScale;
     }
 
 
@@ -142,18 +142,18 @@ public class TerrainGenerator : MonoBehaviour
         if (biomeValue < 0.3f)
         {
             heightScale = 10f;
-            frequencyScale = 2f;
-            firstOctaceValue = 1f;
+            frequencyScale = 3f;
+            firstOctaceValue = 2f;
             octavesCount = 1;
-            exp = 0.6f;
+            exp = 0.8f;
         }
         else if (biomeValue < 0.4f)
         {
             heightScale = 12f;
             frequencyScale = 2f;
             firstOctaceValue = 1f;
-            octavesCount = 1;
-            exp = 0.6f;
+            octavesCount = 2;
+            exp = 0.8f;
         }
         else if (biomeValue < 0.5f)
         {
@@ -173,7 +173,7 @@ public class TerrainGenerator : MonoBehaviour
         }
         else if (biomeValue < 0.7f)
         {
-            heightScale = 45f;
+            heightScale = 40f;
             frequencyScale = 4f;
             firstOctaceValue = 2f;
             octavesCount = 4;
@@ -181,11 +181,11 @@ public class TerrainGenerator : MonoBehaviour
         }
         else
         {
-            heightScale = 60f;
+            heightScale = 50f;
             frequencyScale = 4f;
-            firstOctaceValue = 2f;
+            firstOctaceValue = 3f;
             octavesCount = 5;
-            exp = 1.1f;
+            exp = 1.2f;
         }
 
         return (firstOctaceValue, octavesCount, frequencyScale, heightScale, exp);
@@ -197,24 +197,24 @@ public class TerrainGenerator : MonoBehaviour
         Vector3[] vertices = chunk.terrain.vertices;
         Vector2Int chunkCoord = chunk.position;
 
+        
         if (terrainChunks.TryGetValue(new Vector2Int(chunkCoord.x + 1, chunkCoord.y), out Chunk rightChunk))
         {
             Vector3[] neighborVertices = rightChunk.terrain.vertices;
             for (int i = 0; i < chunkSize; i++)
             {
                 int j = i * (chunkSize + 1) + chunkSize;
-                vertices[j] = new Vector3(vertices[j].x, neighborVertices[i * (chunkSize + 1)].y, vertices[j].z);
+                vertices[j].y = neighborVertices[i * (chunkSize + 1)].y;
             }
         }
 
         if (terrainChunks.TryGetValue(new Vector2Int(chunkCoord.x, chunkCoord.y + 1), out Chunk aboveChunk))
         {
             Vector3[] neighborVertices = aboveChunk.terrain.vertices;
-
             for (int i = 0; i <= chunkSize; i++)
             {
                 int j = chunkSize * (chunkSize + 1) + i;
-                vertices[j] = new Vector3(vertices[j].x, neighborVertices[i].y, vertices[j].z);
+                vertices[j].y = neighborVertices[i].y;
             }
         }
 
@@ -222,12 +222,43 @@ public class TerrainGenerator : MonoBehaviour
         {
             Vector3[] neighborVertices = cornerChunk.terrain.vertices;
             int j = vertices.Length - 1;
-            vertices[j] = new Vector3(vertices[j].x, neighborVertices[0].y, vertices[j].z);
+            vertices[j].y = neighborVertices[0].y;
         }
 
+        vertices = AverageSmoothing(vertices);
 
         chunk.terrain.vertices = vertices;
        
         return chunk;
-    }    
+    }
+
+    Vector3[] AverageSmoothing(Vector3[] vertices)
+    {
+        int topBottomSmoothRange = chunkSize/ 2;
+
+        for (int i = 0; i <= chunkSize; i++)
+        {
+            for (int j = 0; j <= topBottomSmoothRange; j++)
+            {
+                float ratio = (float)(topBottomSmoothRange - j) / topBottomSmoothRange;
+                int index = (chunkSize - j) * (chunkSize + 1) + i;
+                vertices[index].y = vertices[(chunkSize) * (chunkSize + 1) + i].y * ratio + vertices[index].y * (1 - ratio);
+            }
+        }
+
+        int leftRightSmoothRange = chunkSize / 3;
+
+        for (int i = 1; i <= chunkSize +1; i++)
+        {
+            for (int j = 0; j <= leftRightSmoothRange; j++)
+            {
+                float ratio = (float)(leftRightSmoothRange - j) / leftRightSmoothRange;
+                int index = i * (chunkSize + 1) - j - 1;
+                vertices[index].y = vertices[i * (chunkSize + 1) - 1].y * ratio + vertices[index].y * (1 - ratio);
+            }
+        }
+
+
+        return vertices;
+    }
 }
