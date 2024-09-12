@@ -60,6 +60,8 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.37f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\ModelGrass.cs" />
+    <Compile Include="Assets\Scripts\PostProcessor.cs" />
     <Compile Include="Assets\Scripts\Utils\Properties.cs" />
     <Compile Include="Assets\Scripts\Chunk.cs" />
     <Compile Include="Assets\Scripts\TerrainGenerator.cs" />
@@ -69,6 +71,18 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\GameInitializer.cs" />
     <Compile Include="Assets\Scripts\ChunkManager.cs" />
+    <Compile Include="Assets\Scripts\Fog.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\PostProcessing.shader" />
+    <None Include="Assets\Shaders\ModelGrass.shader" />
+    <None Include="Assets\Shaders\Fog.shader" />
+    <None Include="Assets\Resources\GrassPoint.compute" />
+    <None Include="Assets\Resources\Simplex.compute" />
+    <None Include="Assets\Resources\CullGrass.compute" />
+    <None Include="Assets\Resources\GrassChunkPoint.compute" />
+    <None Include="Assets\Resources\WindNoise.compute" />
+    <None Include="Assets\Resources\Random.cginc" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

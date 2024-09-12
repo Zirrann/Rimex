@@ -9,26 +9,24 @@ using System.Linq;
 public class TerrainGenerator : MonoBehaviour
 {
     public Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
-
     public Material grassMaterial;
+    public float[][] heightMap;
 
-
-    void Start()
-    {
-        GenerateTerrain();
-    }
-
-    void GenerateTerrain()
+    public void GenerateTerrain()
     {
         int numChunks = worldSize / chunkSize;
+
+        heightMap = new float[chunkSize * chunkSize][];
 
         for (int x = 0; x < numChunks; x++)
         {
             for (int z = 0; z < numChunks; z++)
             {
                 Vector2Int chunkCoord = new Vector2Int(x, z);
+
                 Mesh chunkMesh = GenerateChunk(chunkCoord);
                 chunkMesh.RecalculateNormals();
+
                 terrainChunks.Add(chunkCoord, new Chunk(chunkCoord, grassMaterial, chunkMesh));
             }
         }
@@ -38,9 +36,32 @@ public class TerrainGenerator : MonoBehaviour
         {
             terrainChunks[key] = AdjustChunkToNeighbours(terrainChunks[key]);
         }
+
+
+        for (int x = 0; x < numChunks; x++)
+        {
+            for (int z = 0; z < numChunks; z++)
+            {
+                heightMap[x + z * chunkSize] = GetChunkSizes(terrainChunks[new Vector2Int(x,z)]);
+            }
+        }
     }
 
-    public static Mesh GenerateChunk(Vector2 chunkCoord)
+    float[] GetChunkSizes(Chunk ckunk) 
+    {
+        float[] height = new float[(int)((chunkSize + 1) * (chunkSize + 1))];
+        for (int i = 0, z = 0; z <= chunkSize; z++)
+        {
+            for (int x = 0; x <= chunkSize; x++, i++)
+            {
+                height[i] = ckunk.terrain.vertices[i].y;
+            }
+        }
+
+        return height;
+    }
+
+    public Mesh GenerateChunk(Vector2 chunkCoord)
     {
         Vector3[] vertices = new Vector3[(chunkSize + 1) * (chunkSize + 1)];
         int[] triangles = new int[chunkSize * chunkSize * 6];
@@ -48,17 +69,22 @@ public class TerrainGenerator : MonoBehaviour
 
         (float firstOctaceValue, int octavesCount, float frequencyScale, float heightScale, float exp) = GetBiomeParams(chunkCoord.x, chunkCoord.y);
 
+        float[] height = new float[(int)((chunkSize +1) * (chunkSize + 1))];
         for (int i = 0, z = 0; z <= chunkSize; z++)
         {
             for (int x = 0; x <= chunkSize; x++, i++)
             {
-
                 float y = GetNoiceValue(x + chunkCoord.x * chunkSize, z + chunkCoord.y * chunkSize,
-                    firstOctaceValue, octavesCount, frequencyScale, heightScale, exp);           
+                    firstOctaceValue, octavesCount, frequencyScale, heightScale, exp);
+
                 vertices[i] = new Vector3(x, y, z);
                 uvs[i] = new Vector2((float)x / chunkSize, (float)z / chunkSize);
+                
+                height[i] = y;
             }
         }
+
+        heightMap[(int)(chunkCoord.x + chunkCoord.y * (chunkSize))] = height;
 
         int vert = 0;
         int tris = 0;

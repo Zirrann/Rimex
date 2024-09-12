@@ -4,15 +4,17 @@ using static Properties;
 public class ChunkManager : MonoBehaviour
 {
     public Transform player;
-    private GameObject[] chunks;
 
+    private GameObject[] chunks;
     private float checkInterval = 1f;
 
     void Start()
     {
         chunks = GameObject.FindGameObjectsWithTag("Chunk");
-        //StartCoroutine(MenageChunksState());
+        StartCoroutine(MenageChunksState());
     }
+
+
 
     IEnumerator MenageChunksState()
     {
