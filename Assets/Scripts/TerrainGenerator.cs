@@ -11,80 +11,106 @@ public class TerrainGenerator : MonoBehaviour
     public Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
     public Material grassMaterial;
     public float[][] heightMap;
+    public GameObject quadPrefab;
+
+    private Mesh baseMesh;
+    private int numChunks;
+
+    void onEnable()
+    {
+        baseMesh = GenerateBazeMesh();
+    }
 
     public void GenerateTerrain()
     {
-        int numChunks = worldSize / chunkSize;
-
-        heightMap = new float[chunkSize * chunkSize][];
-
-        for (int x = 0; x < numChunks; x++)
+        if (baseMesh is null) 
         {
-            for (int z = 0; z < numChunks; z++)
+            baseMesh = GenerateBazeMesh();
+        }
+
+        numChunks = worldSize / chunkSize;
+
+        heightMap = new float[numChunks * numChunks][];
+
+        // Generate terrain heights base on noises
+        for (int i = 0, x = 0; x < numChunks; x++)
+        {
+            for (int z = 0; z < numChunks; z++, i++)
             {
-                Vector2Int chunkCoord = new Vector2Int(x, z);
-
-                Mesh chunkMesh = GenerateChunk(chunkCoord);
-                chunkMesh.RecalculateNormals();
-
-                terrainChunks.Add(chunkCoord, new Chunk(chunkCoord, grassMaterial, chunkMesh));
+                heightMap[i] = GenerateChunkHeights(x, z);
             }
         }
-
-        var keys = terrainChunks.Keys.ToList();
-        foreach (var key in keys)
+        // Smoove heights changes on edges
+        for (int i = 0, x = 0; x < numChunks; x++)
         {
-            terrainChunks[key] = AdjustChunkToNeighbours(terrainChunks[key]);
-        }
-
-
-        for (int x = 0; x < numChunks; x++)
-        {
-            for (int z = 0; z < numChunks; z++)
+            for (int z = 0; z < numChunks; z++, i++)
             {
-                heightMap[x + z * chunkSize] = GetChunkSizes(terrainChunks[new Vector2Int(x,z)]);
+                AdjustChunkToNeighbours(i);
+            }
+        }
+        // Make chunks
+        for (int i = 0, x = 0; x < numChunks; x++)
+        {
+            for (int z = 0; z < numChunks; z++, i++)
+            {
+                Vector2Int vec = new Vector2Int(x, z);
+                Mesh mesh = CreateMesh(i);
+                terrainChunks.Add(vec, new Chunk(vec, grassMaterial, mesh));
             }
         }
     }
 
-    float[] GetChunkSizes(Chunk ckunk) 
+    private Mesh CreateMesh(int index) {
+        Mesh mesh = new Mesh();
+        Vector3[] vertices = new Vector3[baseMesh.vertices.Length];
+
+        for (int i = 0; i < heightMap[index].Length; i++) {
+            vertices[i] = baseMesh.vertices[i] + new Vector3(0, heightMap[index][i],0);
+        }
+
+        mesh.vertices = vertices;
+        mesh.uv = baseMesh.uv;
+        mesh.triangles = baseMesh.triangles;
+
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals();
+
+        return mesh;
+    }
+
+    public float[] GenerateChunkHeights(int chankX, int chankZ)
     {
+        (float firstOctaceValue, int octavesCount, float frequencyScale, float heightScale, float exp) = GetBiomeParams(chankX, chankZ);
+
         float[] height = new float[(int)((chunkSize + 1) * (chunkSize + 1))];
         for (int i = 0, z = 0; z <= chunkSize; z++)
         {
             for (int x = 0; x <= chunkSize; x++, i++)
             {
-                height[i] = ckunk.terrain.vertices[i].y;
+                float y = GetNoiceValue(x + chankX * chunkSize, z + chankZ * chunkSize,
+                    firstOctaceValue, octavesCount, frequencyScale, heightScale, exp);
+                height[i] = y;
             }
         }
 
         return height;
     }
 
-    public Mesh GenerateChunk(Vector2 chunkCoord)
+    private Mesh GenerateBazeMesh()
     {
         Vector3[] vertices = new Vector3[(chunkSize + 1) * (chunkSize + 1)];
         int[] triangles = new int[chunkSize * chunkSize * 6];
         Vector2[] uvs = new Vector2[vertices.Length];
 
-        (float firstOctaceValue, int octavesCount, float frequencyScale, float heightScale, float exp) = GetBiomeParams(chunkCoord.x, chunkCoord.y);
-
-        float[] height = new float[(int)((chunkSize +1) * (chunkSize + 1))];
+        float[] height = new float[(int)((chunkSize + 1) * (chunkSize + 1))];
         for (int i = 0, z = 0; z <= chunkSize; z++)
         {
             for (int x = 0; x <= chunkSize; x++, i++)
             {
-                float y = GetNoiceValue(x + chunkCoord.x * chunkSize, z + chunkCoord.y * chunkSize,
-                    firstOctaceValue, octavesCount, frequencyScale, heightScale, exp);
-
-                vertices[i] = new Vector3(x, y, z);
+                vertices[i] = new Vector3(x, 0, z);
                 uvs[i] = new Vector2((float)x / chunkSize, (float)z / chunkSize);
-                
-                height[i] = y;
             }
         }
-
-        heightMap[(int)(chunkCoord.x + chunkCoord.y * (chunkSize))] = height;
 
         int vert = 0;
         int tris = 0;
@@ -113,8 +139,8 @@ public class TerrainGenerator : MonoBehaviour
         return mesh;
     }
 
-
-    private static float GetNoiceValue(float x, float y, float firstOctaceValue, int octavesCount, float frequencyScale, float heightScale, float exp ) {
+    private static float GetNoiceValue(float x, float y, float firstOctaceValue, int octavesCount, float frequencyScale, float heightScale, float exp)
+    {
 
         x = x / worldSize;
         y = y / worldSize;
@@ -125,7 +151,7 @@ public class TerrainGenerator : MonoBehaviour
 
         for (int i = 0; i < octavesCount; i++)
         {
-            noice += Mathf.PerlinNoise(x * frequencyScale * ocatave, y * frequencyScale * ocatave)  / ocatave;
+            noice += Mathf.PerlinNoise(x * frequencyScale * ocatave, y * frequencyScale * ocatave) / ocatave;
             n += 1 / ocatave;
             ocatave *= 2;
 
@@ -137,33 +163,15 @@ public class TerrainGenerator : MonoBehaviour
         return noice * heightScale;
     }
 
-
-    private static float GetBiome(float x, float y, int seed)
-    {
-        float biomeFrequency = 1.5f;
-       // x = (x + (seed & worldSize) / worldSize); 
-       // y = (y + (seed & worldSize) / worldSize);   
-        x = x / worldSize * chunkSize;
-        y = y / worldSize * chunkSize;
-
-        float  b = Mathf.PerlinNoise((x) * biomeFrequency, (y) * biomeFrequency);
-        
-        return b;
-    }
-
     private static (float, int, float, float, float) GetBiomeParams(float x, float y) 
     {
-
         float biomeValue = GetBiome(x, y, 47231);
-
 
         float firstOctaceValue;
         float frequencyScale;
         float heightScale;
         float exp;
         int octavesCount;
-
-
 
         if (biomeValue < 0.3f)
         {
@@ -217,48 +225,37 @@ public class TerrainGenerator : MonoBehaviour
         return (firstOctaceValue, octavesCount, frequencyScale, heightScale, exp);
     }
 
-
-    Chunk AdjustChunkToNeighbours(Chunk chunk)
+    void AdjustChunkToNeighbours(int index)
     {
-        Vector3[] vertices = chunk.terrain.vertices;
-        Vector2Int chunkCoord = chunk.position;
-
-        
-        if (terrainChunks.TryGetValue(new Vector2Int(chunkCoord.x + 1, chunkCoord.y), out Chunk rightChunk))
+        // right edge
+        if (index < numChunks * (numChunks - 1))
         {
-            Vector3[] neighborVertices = rightChunk.terrain.vertices;
-            for (int i = 0; i < chunkSize; i++)
+            for (int i = 0; i <= chunkSize; i++)
             {
                 int j = i * (chunkSize + 1) + chunkSize;
-                vertices[j].y = neighborVertices[i * (chunkSize + 1)].y;
+                heightMap[index][j] = heightMap[index + numChunks][i * (chunkSize + 1)];
             }
         }
-
-        if (terrainChunks.TryGetValue(new Vector2Int(chunkCoord.x, chunkCoord.y + 1), out Chunk aboveChunk))
+        // top edge
+        if ((index + 1 ) % numChunks != 0)
         {
-            Vector3[] neighborVertices = aboveChunk.terrain.vertices;
             for (int i = 0; i <= chunkSize; i++)
             {
                 int j = chunkSize * (chunkSize + 1) + i;
-                vertices[j].y = neighborVertices[i].y;
+                heightMap[index][j] = heightMap[index + 1][i];
             }
         }
-
-        if (terrainChunks.TryGetValue(new Vector2Int(chunkCoord.x + 1, chunkCoord.y + 1), out Chunk cornerChunk))
+        // top-right conrer
+        if (index + numChunks + 1 < heightMap.Length)
         {
-            Vector3[] neighborVertices = cornerChunk.terrain.vertices;
-            int j = vertices.Length - 1;
-            vertices[j].y = neighborVertices[0].y;
+            int j = heightMap[index].Length - 1;
+            heightMap[index][j] = heightMap[index + numChunks + 1][0];
         }
 
-        vertices = AverageSmoothing(vertices);
-
-        chunk.terrain.vertices = vertices;
-       
-        return chunk;
+         heightMap[index] = AverageSmoothing(heightMap[index]);
     }
 
-    Vector3[] AverageSmoothing(Vector3[] vertices)
+    float[] AverageSmoothing(float[] heights)
     {
         int topBottomSmoothRange = chunkSize/ 2;
 
@@ -268,7 +265,7 @@ public class TerrainGenerator : MonoBehaviour
             {
                 float ratio = (float)(topBottomSmoothRange - j) / topBottomSmoothRange;
                 int index = (chunkSize - j) * (chunkSize + 1) + i;
-                vertices[index].y = vertices[(chunkSize) * (chunkSize + 1) + i].y * ratio + vertices[index].y * (1 - ratio);
+                heights[index] = heights[(chunkSize) * (chunkSize + 1) + i] * ratio + heights[index] * (1 - ratio);
             }
         }
 
@@ -280,11 +277,24 @@ public class TerrainGenerator : MonoBehaviour
             {
                 float ratio = (float)(leftRightSmoothRange - j) / leftRightSmoothRange;
                 int index = i * (chunkSize + 1) - j - 1;
-                vertices[index].y = vertices[i * (chunkSize + 1) - 1].y * ratio + vertices[index].y * (1 - ratio);
+                heights[index] = heights[i * (chunkSize + 1) - 1] * ratio + heights[index] * (1 - ratio);
             }
         }
 
 
-        return vertices;
+        return heights;
+    }
+
+    private static float GetBiome(float x, float y, int seed)
+    {
+        float biomeFrequency = 1.5f;
+        // x = (x + (seed & worldSize) / worldSize); 
+        // y = (y + (seed & worldSize) / worldSize);   
+        x = x / worldSize * chunkSize;
+        y = y / worldSize * chunkSize;
+
+        float b = Mathf.PerlinNoise((x) * biomeFrequency, (y) * biomeFrequency);
+
+        return b;
     }
 }

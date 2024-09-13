@@ -62,8 +62,6 @@ public class ModelGrass : MonoBehaviour
 
     Bounds fieldBounds;
 
-
-
     void OnEnable()
     {
         fieldSize = worldSize;
@@ -157,7 +155,7 @@ public class ModelGrass : MonoBehaviour
         chunk.argsBufferLOD.SetData(argsLOD);
 
         ComputeBuffer possBuff = new ComputeBuffer((chunkSize + 1) * (chunkSize + 1), sizeof(float));
-        possBuff.SetData(positions[xOffset + yOffset * chunkSize]);
+        possBuff.SetData(positions[xOffset * numChunks + yOffset]);
 
         chunk.positionsBuffer = new ComputeBuffer(numInstancesPerChunk, SizeOf(typeof(GrassData)));
         chunk.culledPositionsBuffer = new ComputeBuffer(numInstancesPerChunk, SizeOf(typeof(GrassData)));

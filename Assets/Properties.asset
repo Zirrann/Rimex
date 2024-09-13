@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Properties
   m_EditorClassIdentifier: 
   chunkSize: 20
-  worldSize: 400
-  renderDistance: 3
+  worldSize: 80
+  renderDistance: 5
   octaves: 1
   exp: 1.36
   firstOctaceValue: 2
