@@ -11,7 +11,6 @@ public class TerrainGenerator : MonoBehaviour
     public Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
     public Material grassMaterial;
     public float[][] heightMap;
-    public GameObject quadPrefab;
 
     private Mesh baseMesh;
     private int numChunks;
@@ -163,66 +162,27 @@ public class TerrainGenerator : MonoBehaviour
         return noice * heightScale;
     }
 
-    private static (float, int, float, float, float) GetBiomeParams(float x, float y) 
+    private (float, int, float, float, float) GetBiomeParams(float x, float y) 
     {
         float biomeValue = GetBiome(x, y, 47231);
-
-        float firstOctaceValue;
-        float frequencyScale;
-        float heightScale;
-        float exp;
-        int octavesCount;
+        BiomeType biomeType;
 
         if (biomeValue < 0.3f)
         {
-            heightScale = 10f;
-            frequencyScale = 3f;
-            firstOctaceValue = 2f;
-            octavesCount = 1;
-            exp = 0.8f;
-        }
-        else if (biomeValue < 0.4f)
-        {
-            heightScale = 12f;
-            frequencyScale = 2f;
-            firstOctaceValue = 1f;
-            octavesCount = 2;
-            exp = 0.8f;
-        }
-        else if (biomeValue < 0.5f)
-        {
-            heightScale = 16f;
-            frequencyScale = 2f;
-            firstOctaceValue = 2.5f;
-            octavesCount = 2;
-            exp = 0.7f;
+            biomeType = BiomeType.Forest;
         }
         else if (biomeValue < 0.6f)
         {
-            heightScale = 30f;
-            frequencyScale = 2f;
-            firstOctaceValue = 3f;
-            octavesCount = 3;
-            exp = 0.8f;
-        }
-        else if (biomeValue < 0.7f)
-        {
-            heightScale = 40f;
-            frequencyScale = 4f;
-            firstOctaceValue = 2f;
-            octavesCount = 4;
-            exp = 1f;
+            biomeType = BiomeType.Hills;
         }
         else
         {
-            heightScale = 50f;
-            frequencyScale = 4f;
-            firstOctaceValue = 3f;
-            octavesCount = 5;
-            exp = 1.2f;
+            biomeType = BiomeType.Mountains;
         }
 
-        return (firstOctaceValue, octavesCount, frequencyScale, heightScale, exp);
+        Biome b = Biomes.Instance.GetBiome(biomeType);
+
+        return (b.FirstOctaceValue, b.OctavesCount, b.FrequencyScale, b.HeightScale, b.Exp);
     }
 
     void AdjustChunkToNeighbours(int index)

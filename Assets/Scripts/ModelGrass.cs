@@ -70,7 +70,10 @@ public class ModelGrass : MonoBehaviour
         chunkDimension = numInstancesPerChunk;
         numInstancesPerChunk *= numInstancesPerChunk;
 
-        numThreadGroups = Mathf.CeilToInt(numInstancesPerChunk / 128.0f);
+        terrainGenerator.GenerateTerrain();
+        positions = terrainGenerator.heightMap;
+
+/*        numThreadGroups = Mathf.CeilToInt(numInstancesPerChunk / 128.0f);
         if (numThreadGroups > 128)
         {
             int powerOfTwo = 128;
@@ -96,9 +99,6 @@ public class ModelGrass : MonoBehaviour
         scanBuffer = new ComputeBuffer(numInstancesPerChunk, 4);
         groupSumArrayBuffer = new ComputeBuffer(numThreadGroups, 4);
         scannedGroupSumBuffer = new ComputeBuffer(numThreadGroups, 4);
-
-        terrainGenerator.GenerateTerrain();
-        positions = terrainGenerator.heightMap;
 
         initializeGrassShader.SetInt("_Dimension", fieldSize);
         initializeGrassShader.SetInt("_ChunkDimension", chunkDimension);
@@ -127,7 +127,7 @@ public class ModelGrass : MonoBehaviour
 
         initializeChunks();
 
-        fieldBounds = new Bounds(Vector3.zero, new Vector3(-fieldSize, displacementStrength * 2, fieldSize));
+        fieldBounds = new Bounds(Vector3.zero, new Vector3(-fieldSize, displacementStrength * 2, fieldSize));*/
 
     }
 
@@ -237,7 +237,7 @@ public class ModelGrass : MonoBehaviour
 
     void Update()
     {
-        Matrix4x4 P = Camera.main.projectionMatrix;
+/*        Matrix4x4 P = Camera.main.projectionMatrix;
         Matrix4x4 V = Camera.main.transform.worldToLocalMatrix;
         Matrix4x4 VP = P * V;
 
@@ -254,12 +254,12 @@ public class ModelGrass : MonoBehaviour
                 Graphics.DrawMeshInstancedIndirect(grassMesh, 0, chunks[i].material, fieldBounds, chunks[i].argsBuffer);
             else
                 Graphics.DrawMeshInstancedIndirect(grassLODMesh, 0, chunks[i].material, fieldBounds, chunks[i].argsBufferLOD);
-        }
+        }*/
     }
 
     void OnDisable()
     {
-        voteBuffer.Release();
+/*        voteBuffer.Release();
         scanBuffer.Release();
         groupSumArrayBuffer.Release();
         scannedGroupSumBuffer.Release();
@@ -276,7 +276,7 @@ public class ModelGrass : MonoBehaviour
             FreeChunk(chunks[i]);
         }
 
-        chunks = null;
+        chunks = null;*/
     }
 
     void FreeChunk(GrassChunk chunk)

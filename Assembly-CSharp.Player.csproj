@@ -62,9 +62,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\ModelGrass.cs" />
     <Compile Include="Assets\Scripts\PostProcessor.cs" />
+    <Compile Include="Assets\Scripts\Utils\Biome.cs" />
     <Compile Include="Assets\Scripts\Utils\Properties.cs" />
+    <Compile Include="Assets\Scripts\Utils\BiomeType.cs" />
     <Compile Include="Assets\Scripts\Chunk.cs" />
     <Compile Include="Assets\Scripts\TerrainGenerator.cs" />
+    <Compile Include="Assets\Scripts\Utils\Biomes.cs" />
     <Compile Include="Assets\Scripts\Utils\PropetiesData.cs" />
     <Compile Include="Assets\Scripts\CameraMove.cs" />
     <Compile Include="Assets\Scripts\Dig.cs" />
