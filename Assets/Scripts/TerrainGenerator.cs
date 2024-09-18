@@ -251,32 +251,40 @@ public class TerrainGenerator : MonoBehaviour
          heightMap[index] = AverageSmoothing(heightMap[index]);
     }
 
+    float Smoothstep(float edge0, float edge1, float x)
+    {
+        // Clamp x to the [0, 1] range
+        x = Mathf.Clamp01((x - edge0) / (edge1 - edge0));
+        return x * x * (3 - 2 * x);
+    }
+
     float[] AverageSmoothing(float[] heights)
     {
-        int topBottomSmoothRange = chunkSize/ 2;
+        int topBottomSmoothRange = chunkSize / 2;
 
         for (int i = 0; i <= chunkSize; i++)
         {
             for (int j = 0; j <= topBottomSmoothRange; j++)
             {
                 float ratio = (float)(topBottomSmoothRange - j) / topBottomSmoothRange;
+                ratio = Smoothstep(0, 1, ratio);
                 int index = (chunkSize - j) * (chunkSize + 1) + i;
-                heights[index] = heights[(chunkSize) * (chunkSize + 1) + i] * ratio + heights[index] * (1 - ratio);
+                heights[index] = heights[chunkSize * (chunkSize + 1) + i] * ratio + heights[index] * (1 - ratio);
             }
         }
 
-        int leftRightSmoothRange = chunkSize / 3;
+        int leftRightSmoothRange = chunkSize / 2;
 
-        for (int i = 1; i <= chunkSize +1; i++)
+        for (int i = 1; i <= chunkSize + 1; i++)
         {
             for (int j = 0; j <= leftRightSmoothRange; j++)
             {
                 float ratio = (float)(leftRightSmoothRange - j) / leftRightSmoothRange;
+                ratio = Smoothstep(0, 1, ratio);
                 int index = i * (chunkSize + 1) - j - 1;
                 heights[index] = heights[i * (chunkSize + 1) - 1] * ratio + heights[index] * (1 - ratio);
             }
         }
-
 
         return heights;
     }
