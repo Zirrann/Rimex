@@ -15,7 +15,7 @@ public class TerrainGenerator : MonoBehaviour
     private Mesh baseMesh;
     private int numChunks;
 
-    void onEnable()
+    void OnEnable()
     {
         baseMesh = GenerateBazeMesh();
     }
@@ -157,30 +157,66 @@ public class TerrainGenerator : MonoBehaviour
         }
 
         noice = noice / n;
-        noice = (float)Math.Pow(noice, exp) - 0.5f;
+        noice = (float)Math.Pow(noice, exp);
 
         return noice * heightScale;
     }
 
     private (float, int, float, float, float) GetBiomeParams(float x, float y) 
     {
-        float biomeValue = GetBiome(x, y, 47231);
-        BiomeType biomeType;
+        int seed = 47231;
+        float biomeValue = GetBiome(x, y, seed);
+        float upperBiomeValue = GetBiome(x, y+1, seed);
+        float rightBiomeValue = GetBiome(x+1, y, seed);
 
-        if (biomeValue < 0.3f)
+        BiomeType biomeType = Biomes.GetBiomeType(biomeValue);
+        BiomeType upperBiomeType = Biomes.GetBiomeType(upperBiomeValue);
+        BiomeType rightBiomeType = Biomes.GetBiomeType(rightBiomeValue);
+        Biome b;
+
+        if (biomeType != upperBiomeType && biomeType != rightBiomeType) 
         {
-            biomeType = BiomeType.Forest;
-        }
-        else if (biomeValue < 0.6f)
-        {
-            biomeType = BiomeType.Hills;
-        }
-        else
-        {
-            biomeType = BiomeType.Mountains;
+            Biome biome = Biomes.Instance.GetBiome(biomeType);
+            Biome upperBiome = Biomes.Instance.GetBiome(upperBiomeType);
+            Biome rightBiome = Biomes.Instance.GetBiome(rightBiomeType);
+
+
+            return ((biome.FirstOctaceValue + upperBiome.FirstOctaceValue + rightBiome.FirstOctaceValue) / 3,
+                ((int)(biome.OctavesCount + upperBiome.OctavesCount + rightBiome.OctavesCount) / 3),
+                (biome.FrequencyScale + upperBiome.FrequencyScale + rightBiome.FrequencyScale) / 3,
+                (biome.HeightScale + upperBiome.HeightScale + rightBiome.HeightScale) / 3,
+                (biome.Exp + upperBiome.Exp + rightBiome.Exp) / 3);
         }
 
-        Biome b = Biomes.Instance.GetBiome(biomeType);
+        if (biomeType != upperBiomeType)
+        {
+            Biome biome = Biomes.Instance.GetBiome(biomeType);
+            Biome upperBiome = Biomes.Instance.GetBiome(upperBiomeType);
+
+
+            return ((biome.FirstOctaceValue + upperBiome.FirstOctaceValue) / 2,
+                ((int)(biome.OctavesCount + upperBiome.OctavesCount) / 2),
+                (biome.FrequencyScale + upperBiome.FrequencyScale) / 2,
+                (biome.HeightScale + upperBiome.HeightScale) / 2,
+                (biome.Exp + upperBiome.Exp) / 2);
+        }
+
+        if (biomeType != rightBiomeType)
+        {
+            Biome biome = Biomes.Instance.GetBiome(biomeType);
+            Biome rightBiome = Biomes.Instance.GetBiome(rightBiomeType);
+
+            return ((biome.FirstOctaceValue + rightBiome.FirstOctaceValue) / 2,
+                ((int)(biome.OctavesCount +  rightBiome.OctavesCount) / 2),
+                (biome.FrequencyScale +  rightBiome.FrequencyScale) / 2,
+                (biome.HeightScale + rightBiome.HeightScale) / 2,
+                (biome.Exp + rightBiome.Exp) / 2);
+        }
+
+
+
+
+        b = Biomes.Instance.GetBiome(biomeType);
 
         return (b.FirstOctaceValue, b.OctavesCount, b.FrequencyScale, b.HeightScale, b.Exp);
     }
