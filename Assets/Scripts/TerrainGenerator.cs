@@ -11,13 +11,16 @@ public class TerrainGenerator : MonoBehaviour
     public Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
     public Material grassMaterial;
     public float[][] heightMap;
-
+    public int gameSeed;
+    
+    private int seed;
     private Mesh baseMesh;
     private int numChunks;
 
     void OnEnable()
     {
         baseMesh = GenerateBazeMesh();
+        seed = gameSeed % 99991;
     }
 
     public void GenerateTerrain()
@@ -138,7 +141,7 @@ public class TerrainGenerator : MonoBehaviour
         return mesh;
     }
 
-    private static float GetNoiceValue(float x, float y, float firstOctaceValue, int octavesCount, float frequencyScale, float heightScale, float exp)
+    private float GetNoiceValue(float x, float y, float firstOctaceValue, int octavesCount, float frequencyScale, float heightScale, float exp)
     {
 
         x = x / worldSize;
@@ -164,10 +167,9 @@ public class TerrainGenerator : MonoBehaviour
 
     private (float, int, float, float, float) GetBiomeParams(float x, float y) 
     {
-        int seed = 47231;
-        float biomeValue = GetBiome(x, y, seed);
-        float upperBiomeValue = GetBiome(x, y+1, seed);
-        float rightBiomeValue = GetBiome(x+1, y, seed);
+        float biomeValue = GetBiome(x, y);
+        float upperBiomeValue = GetBiome(x, y+1);
+        float rightBiomeValue = GetBiome(x+1, y);
 
         BiomeType biomeType = Biomes.GetBiomeType(biomeValue);
         BiomeType upperBiomeType = Biomes.GetBiomeType(upperBiomeValue);
@@ -289,13 +291,15 @@ public class TerrainGenerator : MonoBehaviour
         return heights;
     }
 
-    private static float GetBiome(float x, float y, int seed)
+    private float GetBiome(float x, float y)
     {
-        float biomeFrequency = 1.5f;
-        // x = (x + (seed & worldSize) / worldSize); 
-        // y = (y + (seed & worldSize) / worldSize);   
+        float biomeFrequency = 1.5f + (seed % 10) * 0.1f;
+        x = (x + (seed & worldSize) / worldSize); 
+        y = (y + (seed & worldSize) / worldSize);
+
         x = x / worldSize * chunkSize;
         y = y / worldSize * chunkSize;
+
 
         float b = Mathf.PerlinNoise((x) * biomeFrequency, (y) * biomeFrequency);
 

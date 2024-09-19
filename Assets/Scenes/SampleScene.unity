@@ -1523,6 +1523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grassMaterial: {fileID: 0}
+  gameSeed: 154
 --- !u!23 &1890519170
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1586,7 +1587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldSize: 100
-  chunkDensity: 10
+  chunkDensity: 20
   numChunks: 1
   displacementStrength: 1
   grassMaterial: {fileID: 2100000, guid: 4b2d534b19470a54b8a2dad8062c0e1c, type: 2}
