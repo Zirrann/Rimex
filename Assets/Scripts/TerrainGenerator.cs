@@ -16,6 +16,7 @@ public class TerrainGenerator : MonoBehaviour
     private int seed;
     private Mesh baseMesh;
     private int numChunks;
+    private BiomeType biomeType;
 
     void OnEnable()
     {
@@ -57,7 +58,8 @@ public class TerrainGenerator : MonoBehaviour
             {
                 Vector2Int vec = new Vector2Int(x, z);
                 Mesh mesh = CreateMesh(i);
-                terrainChunks.Add(vec, new Chunk(vec, grassMaterial, mesh));
+                biomeType = Biomes.GetBiomeType(GetBiome(x, z));
+                terrainChunks.Add(vec, new Chunk(vec, grassMaterial, mesh, biomeType));
             }
         }
     }
@@ -148,7 +150,7 @@ public class TerrainGenerator : MonoBehaviour
         y = y / worldSize;
 
         float noice = 0;
-        float ocatave = firstOctaceValue;
+        float ocatave = 10f;
         float n = 0;
 
         for (int i = 0; i < octavesCount; i++)
@@ -160,7 +162,7 @@ public class TerrainGenerator : MonoBehaviour
         }
 
         noice = noice / n;
-        noice = (float)Math.Pow(noice, exp);
+        noice = (float)Math.Pow(noice + 1, exp) - 1;
 
         return noice * heightScale;
     }
@@ -171,7 +173,7 @@ public class TerrainGenerator : MonoBehaviour
         float upperBiomeValue = GetBiome(x, y+1);
         float rightBiomeValue = GetBiome(x+1, y);
 
-        BiomeType biomeType = Biomes.GetBiomeType(biomeValue);
+        biomeType = Biomes.GetBiomeType(biomeValue);
         BiomeType upperBiomeType = Biomes.GetBiomeType(upperBiomeValue);
         BiomeType rightBiomeType = Biomes.GetBiomeType(rightBiomeValue);
         Biome b;
@@ -183,11 +185,11 @@ public class TerrainGenerator : MonoBehaviour
             Biome rightBiome = Biomes.Instance.GetBiome(rightBiomeType);
 
 
-            return ((biome.FirstOctaceValue + upperBiome.FirstOctaceValue + rightBiome.FirstOctaceValue) / 3,
-                ((int)(biome.OctavesCount + upperBiome.OctavesCount + rightBiome.OctavesCount) / 3),
-                (biome.FrequencyScale + upperBiome.FrequencyScale + rightBiome.FrequencyScale) / 3,
+            return (biome.FirstOctaceValue,
+                biome.OctavesCount,
+                biome.FrequencyScale,
                 (biome.HeightScale + upperBiome.HeightScale + rightBiome.HeightScale) / 3,
-                (biome.Exp + upperBiome.Exp + rightBiome.Exp) / 3);
+                biome.Exp);
         }
 
         if (biomeType != upperBiomeType)
@@ -196,11 +198,11 @@ public class TerrainGenerator : MonoBehaviour
             Biome upperBiome = Biomes.Instance.GetBiome(upperBiomeType);
 
 
-            return ((biome.FirstOctaceValue + upperBiome.FirstOctaceValue) / 2,
-                ((int)(biome.OctavesCount + upperBiome.OctavesCount) / 2),
-                (biome.FrequencyScale + upperBiome.FrequencyScale) / 2,
-                (biome.HeightScale + upperBiome.HeightScale) / 2,
-                (biome.Exp + upperBiome.Exp) / 2);
+            return (biome.FirstOctaceValue,
+                biome.OctavesCount,
+                biome.FrequencyScale,
+                (biome.HeightScale + upperBiome.HeightScale ) / 2,
+                biome.Exp);
         }
 
         if (biomeType != rightBiomeType)
@@ -208,11 +210,11 @@ public class TerrainGenerator : MonoBehaviour
             Biome biome = Biomes.Instance.GetBiome(biomeType);
             Biome rightBiome = Biomes.Instance.GetBiome(rightBiomeType);
 
-            return ((biome.FirstOctaceValue + rightBiome.FirstOctaceValue) / 2,
-                ((int)(biome.OctavesCount +  rightBiome.OctavesCount) / 2),
-                (biome.FrequencyScale +  rightBiome.FrequencyScale) / 2,
+            return (biome.FirstOctaceValue,
+                biome.OctavesCount,
+                biome.FrequencyScale,
                 (biome.HeightScale + rightBiome.HeightScale) / 2,
-                (biome.Exp + rightBiome.Exp) / 2);
+                biome.Exp);
         }
 
 

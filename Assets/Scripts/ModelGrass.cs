@@ -36,7 +36,7 @@ public class ModelGrass : MonoBehaviour
     private float[][] positions;
     private RenderTexture wind;
 
-    private int numInstancesPerChunk, chunkDimension, numThreadGroups, numVoteThreadGroups, numGroupScanThreadGroups, numWindThreadGroups, numGrassInitThreadGroups;
+    private int numInstancesPerChunk, chunkDimension, numThreadGroups, numVoteThreadGroups, numGroupScanThreadGroups, numWindThreadGroups, numGrassInitThreadGroups, nGrassChunks;
 
     private struct GrassData
     {
@@ -73,7 +73,7 @@ public class ModelGrass : MonoBehaviour
         terrainGenerator.GenerateTerrain();
         positions = terrainGenerator.heightMap;
 
-/*        numThreadGroups = Mathf.CeilToInt(numInstancesPerChunk / 128.0f);
+        numThreadGroups = Mathf.CeilToInt(numInstancesPerChunk / 128.0f);
         if (numThreadGroups > 128)
         {
             int powerOfTwo = 128;
@@ -127,24 +127,26 @@ public class ModelGrass : MonoBehaviour
 
         initializeChunks();
 
-        fieldBounds = new Bounds(Vector3.zero, new Vector3(-fieldSize, displacementStrength * 2, fieldSize));*/
+        fieldBounds = new Bounds(Vector3.zero, new Vector3(-fieldSize, displacementStrength * 2, fieldSize));
 
     }
 
     void initializeChunks()
     {
         chunks = new GrassChunk[numChunks * numChunks];
+        nGrassChunks = 0;
 
-        for (int x = 0; x < numChunks; ++x)
-        {
-            for (int y = 0; y < numChunks; ++y)
-            {
-                chunks[x + y * numChunks] = initializeGrassChunk(x, y);
-            }
+        foreach (Vector2Int key in terrainGenerator.terrainChunks.Keys) {
+            var chunk = terrainGenerator.terrainChunks[key];
+         // for future   if (chunk.biomeType == BiomeType.Mountains) continue;
+            Biome biome = Biomes.Instance.GetBiome(chunk.biomeType);
+            float noiseSkipValue = biome._GrassData.GrassPointSkipValue;
+            float noiseHeight = biome._GrassData.GrassIslandHeight;
+            chunks[nGrassChunks++] = initializeGrassChunk(key.x, key.y, noiseSkipValue, noiseHeight);
         }
     }
 
-    GrassChunk initializeGrassChunk(int xOffset, int yOffset)
+    GrassChunk initializeGrassChunk(int xOffset, int yOffset, float noiseSkipValue, float noiseHeight)
     {
         GrassChunk chunk = new GrassChunk();
 
@@ -175,6 +177,8 @@ public class ModelGrass : MonoBehaviour
 
         initializeGrassShader.SetInt("_XOffset", xOffset);
         initializeGrassShader.SetInt("_YOffset", yOffset);
+        initializeGrassShader.SetFloat("_NoiseHeight", noiseHeight);
+        initializeGrassShader.SetFloat("_NoiseSkipValue", noiseSkipValue);
         initializeGrassShader.SetBuffer(0, "_GrassDataBuffer", chunk.positionsBuffer);
         initializeGrassShader.SetBuffer(0, "_Position", chunk.posBuff);
         initializeGrassShader.Dispatch(0, Mathf.CeilToInt(fieldSize / numChunks) * chunkDensity, Mathf.CeilToInt(fieldSize / numChunks) * chunkDensity, 1);
@@ -237,13 +241,13 @@ public class ModelGrass : MonoBehaviour
 
     void Update()
     {
-/*        Matrix4x4 P = Camera.main.projectionMatrix;
+        Matrix4x4 P = Camera.main.projectionMatrix;
         Matrix4x4 V = Camera.main.transform.worldToLocalMatrix;
         Matrix4x4 VP = P * V;
 
         GenerateWind();
 
-        for (int i = 0; i < numChunks * numChunks; ++i)
+        for (int i = 0; i < nGrassChunks; ++i)
         {
             float dist = Vector3.Distance(Camera.main.transform.position, chunks[i].bounds.center);
 
@@ -254,12 +258,12 @@ public class ModelGrass : MonoBehaviour
                 Graphics.DrawMeshInstancedIndirect(grassMesh, 0, chunks[i].material, fieldBounds, chunks[i].argsBuffer);
             else
                 Graphics.DrawMeshInstancedIndirect(grassLODMesh, 0, chunks[i].material, fieldBounds, chunks[i].argsBufferLOD);
-        }*/
+        }
     }
 
     void OnDisable()
     {
-/*        voteBuffer.Release();
+        voteBuffer.Release();
         scanBuffer.Release();
         groupSumArrayBuffer.Release();
         scannedGroupSumBuffer.Release();
@@ -276,7 +280,7 @@ public class ModelGrass : MonoBehaviour
             FreeChunk(chunks[i]);
         }
 
-        chunks = null;*/
+        chunks = null;
     }
 
     void FreeChunk(GrassChunk chunk)

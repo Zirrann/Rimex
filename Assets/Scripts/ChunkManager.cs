@@ -11,7 +11,7 @@ public class ChunkManager : MonoBehaviour
     void Start()
     {
         chunks = GameObject.FindGameObjectsWithTag("Chunk");
-      //  StartCoroutine(MenageChunksState());
+        StartCoroutine(MenageChunksState());
     }
 
 

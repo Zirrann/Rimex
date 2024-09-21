@@ -8,9 +8,12 @@ public class Biomes
     {
         biomes = new Dictionary<BiomeType, Biome>();
 
-        biomes[BiomeType.Forest] = new Biome(10f, 3f, 2f, 0.8f, 4);
-        biomes[BiomeType.Hills] = new Biome(15f, 2f, 3f, 0.9f, 2);
-        biomes[BiomeType.Mountains] = new Biome(100f, 4f, 3f, 1f, 5);
+        biomes[BiomeType.Forest]    = new Biome(10f, 2f, 0.1f, 0.9f,    2, new Biome.ChunkGrassData(0, 0.02f));
+        biomes[BiomeType.LowHills]  = new Biome(11f, 0.7f, 0.5f, 1.5f,  3, new Biome.ChunkGrassData(0, 0.1f));
+        biomes[BiomeType.Hills]     = new Biome(13, 0.6f, 0.5f, 2f,     2, new Biome.ChunkGrassData(0, 0.2f));
+        biomes[BiomeType.HighHills] = new Biome(15f, 1.2f, 0.5f, 2.2f,  4, new Biome.ChunkGrassData(0, 0.3f));
+        biomes[BiomeType.Mountains] = new Biome(18f, 0.7f, 0.5f, 2.8f,  5, new Biome.ChunkGrassData(0, 0.6f));
+ 
     }
 
     public static Biomes Instance
@@ -37,15 +40,23 @@ public class Biomes
 
         if (noiceValue < 0.3f)
         {
-            return BiomeType.Forest;
+            return BiomeType.Mountains;
         }
-        else if (noiceValue < 0.6f)
+       else if (noiceValue < 0.4f)
+        {
+            return BiomeType.HighHills;
+        }
+        else if (noiceValue < 0.55f)
         {
             return BiomeType.Hills;
         }
+        else if (noiceValue < 0.7f)
+        {
+            return BiomeType.LowHills;
+        }
         else
         {
-            return BiomeType.Mountains;
+            return BiomeType.Forest;
         }
     } 
 }

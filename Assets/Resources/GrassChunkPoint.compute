@@ -18,8 +18,7 @@ uint _ChunkSize;
 
 
 int _Dimension, _Scale, _XOffset, _YOffset, _NumChunks, _ChunkDimension;
-float _DisplacementStrength;
-
+float _DisplacementStrength, _NoiseHeight,_NoiseSkipValue;
 
 
 bool IsWholeNumber(float value)
@@ -31,7 +30,7 @@ bool IsWholeNumber(float value)
 void InitializeGrassChunk(uint3 id : SV_DispatchThreadID)
 {
     if (id.x < uint(_ChunkDimension) && id.y < uint(_ChunkDimension))
-    {
+    {            
         GrassData grass;
         float4 pos = 0.0f;
 
@@ -43,6 +42,14 @@ void InitializeGrassChunk(uint3 id : SV_DispatchThreadID)
         pos.x = (id.x - (chunkDimension * 0.5f * _NumChunks)) + chunkDimension * _XOffset;
         pos.z = (id.y - (chunkDimension * 0.5f * _NumChunks)) + chunkDimension * _YOffset; 
         pos.xz *= (1.0f / scale);
+        
+        float noise = snoise(float3(pos.xz + _XOffset + _YOffset, 0.0f)) + _NoiseHeight;
+        noise = pow(abs(noise), 3.0f);
+        
+        if (noise < _NoiseSkipValue)
+        {
+            return;
+        }
         
         int index = floor(id.x / _ChunkDensity) + floor(id.y / _ChunkDensity) * _ChunkSize;
        
@@ -64,7 +71,7 @@ void InitializeGrassChunk(uint3 id : SV_DispatchThreadID)
         pos.x += snoise(float3(pos.xz + _XOffset + _YOffset, 0.0f) * 3.0f) * 0.05f;
         pos.z += snoise(float3(pos.xz + _XOffset + _YOffset, 0.0f) * 4.0f) * 0.05f;
 
-        float noise = abs(snoise(float3(pos.xz + _XOffset + _YOffset, 0.0f) * 2.2f));
+        noise = abs(snoise(float3(pos.xz + _XOffset + _YOffset, 0.0f) * 2.2f));
 
         pos.w = lerp(0.3f, 0.8f, noise);
         

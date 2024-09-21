@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9377e1a05378d3f43ac27edd131b2b76, type: 3}
   m_Name: Properties
   m_EditorClassIdentifier: 
-  chunkSize: 4
-  worldSize: 200
+  chunkSize: 20
+  worldSize: 400
   renderDistance: 5
   octaves: 1
   exp: 1.36
