@@ -8,11 +8,11 @@ public class Biomes
     {
         biomes = new Dictionary<BiomeType, Biome>();
 
-        biomes[BiomeType.Forest]    = new Biome(10f, 2f, 0.1f, 0.9f,    2, new Biome.ChunkGrassData(0, 0.02f));
-        biomes[BiomeType.LowHills]  = new Biome(11f, 0.7f, 0.5f, 1.5f,  3, new Biome.ChunkGrassData(0, 0.1f));
-        biomes[BiomeType.Hills]     = new Biome(13, 0.6f, 0.5f, 2f,     2, new Biome.ChunkGrassData(0, 0.2f));
-        biomes[BiomeType.HighHills] = new Biome(15f, 1.2f, 0.5f, 2.2f,  4, new Biome.ChunkGrassData(0, 0.3f));
-        biomes[BiomeType.Mountains] = new Biome(18f, 0.7f, 0.5f, 2.8f,  5, new Biome.ChunkGrassData(0, 0.6f));
+        biomes[BiomeType.Forest]    = new ForestBiome();
+        biomes[BiomeType.LowHills]  = new LowHillsBiome();
+        biomes[BiomeType.Hills]     = new HillsBiome();
+        biomes[BiomeType.HighHills] = new HighHillsBiome();
+        biomes[BiomeType.Mountains] = new MountainsBiome();
  
     }
 

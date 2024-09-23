@@ -1,10 +1,10 @@
-public class Biome
+public abstract class Biome
 {
-    public float HeightScale { get; private set; }
-    public float FrequencyScale { get; private set; }
-    public int OctavesCount { get; private set; }
-    public float Exp { get; private set; }
-    public float FirstOctaceValue { get; private set; } 
+    public float HeightScale { get; set; }
+    public float FrequencyScale { get; set; }
+    public int OctavesCount { get; set; }
+    public float Exp { get; set; }
+    public float FirstOctaveValue { get; set; } 
 
     public ChunkGrassData _GrassData;
 
@@ -26,7 +26,7 @@ public class Biome
         FrequencyScale = frequencyScale;
         OctavesCount = octavesCount;
         Exp = exp;
-        FirstOctaceValue = firstOctaceValue;
+        FirstOctaveValue = firstOctaceValue;
         _GrassData = grassData;
     }
 
@@ -35,7 +35,10 @@ public class Biome
         FrequencyScale = frequencyScale;
         HeightScale = heightScale;
         Exp = exp;
-        FirstOctaceValue = firstOctaceValue;
+        FirstOctaveValue = firstOctaceValue;
         OctavesCount = octavesCount;
     }
+
+    public abstract Chunk GenerateBiomeObjectsForChunk(Chunk chunk);
+    
 }

@@ -185,7 +185,7 @@ public class TerrainGenerator : MonoBehaviour
             Biome rightBiome = Biomes.Instance.GetBiome(rightBiomeType);
 
 
-            return (biome.FirstOctaceValue,
+            return (biome.FirstOctaveValue,
                 biome.OctavesCount,
                 biome.FrequencyScale,
                 (biome.HeightScale + upperBiome.HeightScale + rightBiome.HeightScale) / 3,
@@ -198,7 +198,7 @@ public class TerrainGenerator : MonoBehaviour
             Biome upperBiome = Biomes.Instance.GetBiome(upperBiomeType);
 
 
-            return (biome.FirstOctaceValue,
+            return (biome.FirstOctaveValue,
                 biome.OctavesCount,
                 biome.FrequencyScale,
                 (biome.HeightScale + upperBiome.HeightScale ) / 2,
@@ -210,7 +210,7 @@ public class TerrainGenerator : MonoBehaviour
             Biome biome = Biomes.Instance.GetBiome(biomeType);
             Biome rightBiome = Biomes.Instance.GetBiome(rightBiomeType);
 
-            return (biome.FirstOctaceValue,
+            return (biome.FirstOctaveValue,
                 biome.OctavesCount,
                 biome.FrequencyScale,
                 (biome.HeightScale + rightBiome.HeightScale) / 2,
@@ -222,7 +222,7 @@ public class TerrainGenerator : MonoBehaviour
 
         b = Biomes.Instance.GetBiome(biomeType);
 
-        return (b.FirstOctaceValue, b.OctavesCount, b.FrequencyScale, b.HeightScale, b.Exp);
+        return (b.FirstOctaveValue, b.OctavesCount, b.FrequencyScale, b.HeightScale, b.Exp);
     }
 
     void AdjustChunkToNeighbours(int index)

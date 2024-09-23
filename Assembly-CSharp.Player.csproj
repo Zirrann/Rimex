@@ -60,27 +60,32 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.37f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Biomes\BiomeTypes\HighHillsBiome.cs" />
     <Compile Include="Assets\Scripts\ModelGrass.cs" />
     <Compile Include="Assets\Scripts\PostProcessor.cs" />
-    <Compile Include="Assets\Scripts\Utils\Biome.cs" />
+    <Compile Include="Assets\Scripts\Trees.cs" />
+    <Compile Include="Assets\Scripts\Biomes\BiomeType.cs" />
     <Compile Include="Assets\Scripts\Utils\Properties.cs" />
-    <Compile Include="Assets\Scripts\Utils\BiomeType.cs" />
+    <Compile Include="Assets\Scripts\Biomes\BiomeTypes\HillsBiome.cs" />
+    <Compile Include="Assets\Scripts\Biomes\BiomeTypes\ForestBiome.cs" />
     <Compile Include="Assets\Scripts\Chunk.cs" />
     <Compile Include="Assets\Scripts\TerrainGenerator.cs" />
-    <Compile Include="Assets\Scripts\Utils\Biomes.cs" />
     <Compile Include="Assets\Scripts\Utils\PropetiesData.cs" />
+    <Compile Include="Assets\Scripts\Biomes\BiomeTypes\LowHillsBiome.cs" />
     <Compile Include="Assets\Scripts\CameraMove.cs" />
+    <Compile Include="Assets\Scripts\Biomes\Biome.cs" />
+    <Compile Include="Assets\Scripts\Biomes\BiomeTypes\MountainsBiome.cs" />
     <Compile Include="Assets\Scripts\ChunkObject.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\GameInitializer.cs" />
     <Compile Include="Assets\Scripts\ChunkManager.cs" />
+    <Compile Include="Assets\Scripts\Biomes\Biomes.cs" />
     <Compile Include="Assets\Scripts\Fog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\PostProcessing.shader" />
     <None Include="Assets\Shaders\ModelGrass.shader" />
     <None Include="Assets\Shaders\Fog.shader" />
-    <None Include="Assets\GrassPoint.compute" />
     <None Include="Assets\Resources\Simplex.compute" />
     <None Include="Assets\Resources\CullGrass.compute" />
     <None Include="Assets\Resources\GrassChunkPoint.compute" />
