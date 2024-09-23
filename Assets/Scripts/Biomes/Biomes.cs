@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Biomes
 {
@@ -35,7 +36,6 @@ public class Biomes
         return biomes[type];
     }
 
-
     public static BiomeType GetBiomeType(float noiceValue) {
 
         if (noiceValue < 0.3f)
@@ -58,5 +58,11 @@ public class Biomes
         {
             return BiomeType.Forest;
         }
-    } 
+    }
+
+    public void GenerateChunkObjects(Chunk chunks, BiomeType biomeType ) 
+    {
+        if(biomeType == BiomeType.Forest)
+            biomes[biomeType].GenerateBiomeObjectsForChunk(chunks);
+    }
 }

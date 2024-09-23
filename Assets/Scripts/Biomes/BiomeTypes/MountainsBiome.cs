@@ -10,7 +10,7 @@
         _GrassData = new ChunkGrassData(0, 0.6f);
     }
 
-    public override Chunk GenerateBiomeObjectsForChunk(Chunk chunk)
+    public override void GenerateBiomeObjectsForChunk(Chunk chunk)
     {
         throw new System.NotImplementedException();
     }

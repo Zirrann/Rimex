@@ -10,7 +10,7 @@ public class LowHillsBiome : Biome
         _GrassData = new ChunkGrassData(0, 0.1f);
     }
 
-    public override Chunk GenerateBiomeObjectsForChunk(Chunk chunk)
+    public override void GenerateBiomeObjectsForChunk(Chunk chunk)
     {
         throw new System.NotImplementedException();
     }

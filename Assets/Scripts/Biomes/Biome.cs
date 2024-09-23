@@ -39,6 +39,6 @@ public abstract class Biome
         OctavesCount = octavesCount;
     }
 
-    public abstract Chunk GenerateBiomeObjectsForChunk(Chunk chunk);
+    public abstract void GenerateBiomeObjectsForChunk(Chunk chunk);
     
 }

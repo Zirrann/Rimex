@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using static Properties;
 
@@ -9,14 +10,19 @@ public class Chunk
     private GameObject chunkParent = GameObject.Find("Chunks");
     public GameObject chunkObject;
     public BiomeType biomeType;
+    public List<GameObject[]> chunkObjects;
 
     public Chunk(Vector2Int chunkCoord, Material material, Mesh terrain, BiomeType biomeType)
     {
+        chunkObjects = new List<GameObject[]>();
+
         this.position = chunkCoord;
         this.terrain = terrain;
         this.biomeType = biomeType;
 
         Initialize(material);
+        
+        Biomes.Instance.GenerateChunkObjects(this, biomeType);
     }
 
     private void Initialize(Material material)
@@ -37,5 +43,65 @@ public class Chunk
 
         ChunkComponent chunkComponent = chunkObject.AddComponent<ChunkComponent>();
         chunkComponent.biomeType = biomeType;
+    }
+
+    public void DeactivateAllObjects()
+    {
+        if (chunkObjects == null || chunkObjects.Count == 0)
+        {
+            Debug.LogWarning("chunkObjects list is empty. No objects to deactivate.");
+            return;
+        }
+
+        foreach (var objectArray in chunkObjects)
+        {
+            if (objectArray == null)
+            {
+                Debug.LogWarning("One of the arrays in chunkObjects is null.");
+                continue;
+            }
+
+            foreach (var gameObject in objectArray)
+            {
+                if (gameObject != null)
+                {
+                    gameObject.SetActive(false);
+                }
+                else
+                {
+                    Debug.LogWarning("Found a null object in the array.");
+                }
+            }
+        }
+    }
+
+    public void ActivateAllObjects()
+    {
+        if (chunkObjects == null || chunkObjects.Count == 0)
+        {
+            Debug.LogWarning("chunkObjects list is empty. No objects to activate.");
+            return;
+        }
+
+        foreach (var objectArray in chunkObjects)
+        {
+            if (objectArray == null)
+            {
+                Debug.LogWarning("One of the arrays in chunkObjects is null.");
+                continue;
+            }
+
+            foreach (var gameObject in objectArray)
+            {
+                if (gameObject != null)
+                {
+                    gameObject.SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning("Found a null object in the array.");
+                }
+            }
+        }
     }
 }

@@ -63,9 +63,9 @@
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\HighHillsBiome.cs" />
     <Compile Include="Assets\Scripts\ModelGrass.cs" />
     <Compile Include="Assets\Scripts\PostProcessor.cs" />
-    <Compile Include="Assets\Scripts\Trees.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeType.cs" />
     <Compile Include="Assets\Scripts\Utils\Properties.cs" />
+    <Compile Include="Assets\Scripts\TreeFactory.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\HillsBiome.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\ForestBiome.cs" />
     <Compile Include="Assets\Scripts\Chunk.cs" />
