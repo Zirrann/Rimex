@@ -47,9 +47,10 @@ public class Chunk
 
     public void DeactivateAllObjects()
     {
+        chunkObject.SetActive(false);
         if (chunkObjects == null || chunkObjects.Count == 0)
         {
-            Debug.LogWarning("chunkObjects list is empty. No objects to deactivate.");
+           // Debug.LogWarning("chunkObjects list is empty. No objects to deactivate.");
             return;
         }
 
@@ -77,9 +78,10 @@ public class Chunk
 
     public void ActivateAllObjects()
     {
+        chunkObject.SetActive(true);
         if (chunkObjects == null || chunkObjects.Count == 0)
         {
-            Debug.LogWarning("chunkObjects list is empty. No objects to activate.");
+       //     Debug.LogWarning("chunkObjects list is empty. No objects to activate.");
             return;
         }
 

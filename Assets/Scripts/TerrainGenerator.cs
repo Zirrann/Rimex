@@ -8,7 +8,7 @@ using System.Linq;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class TerrainGenerator : MonoBehaviour
 {
-    public Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
+    public static Dictionary<Vector2Int, Chunk> terrainChunks = new Dictionary<Vector2Int, Chunk>();
     public Material grassMaterial;
     public float[][] heightMap;
     public int gameSeed;

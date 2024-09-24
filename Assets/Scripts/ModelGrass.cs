@@ -136,9 +136,9 @@ public class ModelGrass : MonoBehaviour
         chunks = new GrassChunk[numChunks * numChunks];
         nGrassChunks = 0;
 
-        foreach (Vector2Int key in terrainGenerator.terrainChunks.Keys) {
-            var chunk = terrainGenerator.terrainChunks[key];
-         // for future   if (chunk.biomeType == BiomeType.Mountains) continue;
+        foreach (Vector2Int key in TerrainGenerator.terrainChunks.Keys)
+        {
+            var chunk = TerrainGenerator.terrainChunks[key];
             Biome biome = Biomes.Instance.GetBiome(chunk.biomeType);
             float noiseSkipValue = biome._GrassData.GrassPointSkipValue;
             float noiseHeight = biome._GrassData.GrassIslandHeight;
