@@ -1618,15 +1618,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fieldSize: 100
-  chunkDensity: 10
+  chunkDensity: 3
   numChunks: 1
   displacementStrength: 1
   grassMaterial: {fileID: 2100000, guid: 4b2d534b19470a54b8a2dad8062c0e1c, type: 2}
   grassMesh: {fileID: 7629811779324647873, guid: 73829f8af30a2db499de1c2f530f9744, type: 3}
   grassLODMesh: {fileID: 7629811779324647873, guid: cd460ce2340a5ea498d0c72d73a5acd6, type: 3}
   terrainGenerator: {fileID: 1890519169}
-  lodCutoff: 50
-  distanceCutoff: 100
+  lodCutoff: 5
+  distanceCutoff: 90
   windSpeed: 1
   frequency: 1
   windStrength: 1

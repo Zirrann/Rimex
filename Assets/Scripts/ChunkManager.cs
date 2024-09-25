@@ -36,8 +36,6 @@ public class ChunkManager : MonoBehaviour
             Vector2Int playerPosition = new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
             Chunk chunk;
 
-            Debug.Log(playerPosition);
-
             for (int y = -renderDistance / 2; y < renderDistance / 2; y++) 
             {
                 for (int x = -renderDistance / 2; x < renderDistance / 2; x++) 
@@ -53,12 +51,7 @@ public class ChunkManager : MonoBehaviour
                     if (TerrainGenerator.terrainChunks.TryGetValue(chunkPosition, out chunk))
                     {
                         chunk.ActivateAllObjects();
-                        Debug.Log($"Aktywuje: {chunkPosition}");
                         currentActiveChunks.Add(chunkPosition);
-                    }
-                    else 
-                    {
-                        Debug.Log($"UPS: {chunkPosition}");
                     }
                 }
             }
