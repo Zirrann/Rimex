@@ -60,27 +60,28 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.37f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Utils\GameInitializer.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\HighHillsBiome.cs" />
-    <Compile Include="Assets\Scripts\ModelGrass.cs" />
-    <Compile Include="Assets\Scripts\PostProcessor.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeType.cs" />
+    <Compile Include="Assets\Scripts\Chunks\Chunk.cs" />
+    <Compile Include="Assets\Scripts\Chunks\ChunkObject.cs" />
     <Compile Include="Assets\Scripts\Utils\Properties.cs" />
-    <Compile Include="Assets\Scripts\TreeFactory.cs" />
+    <Compile Include="Assets\Scripts\InventoryItedmData.cs" />
+    <Compile Include="Assets\Scripts\Chunks\ModelGrass.cs" />
+    <Compile Include="Assets\Scripts\Chunks\TerrainGenerator.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\HillsBiome.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\ForestBiome.cs" />
-    <Compile Include="Assets\Scripts\Chunk.cs" />
-    <Compile Include="Assets\Scripts\TerrainGenerator.cs" />
+    <Compile Include="Assets\Scripts\Player\Camera\CameraMove.cs" />
+    <Compile Include="Assets\Scripts\Utils\PostProcessor.cs" />
     <Compile Include="Assets\Scripts\Utils\PropetiesData.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\LowHillsBiome.cs" />
-    <Compile Include="Assets\Scripts\CameraMove.cs" />
     <Compile Include="Assets\Scripts\Biomes\Biome.cs" />
+    <Compile Include="Assets\Scripts\Chunks\ChunkManager.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\MountainsBiome.cs" />
-    <Compile Include="Assets\Scripts\ChunkObject.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\GameInitializer.cs" />
-    <Compile Include="Assets\Scripts\ChunkManager.cs" />
     <Compile Include="Assets\Scripts\Biomes\Biomes.cs" />
-    <Compile Include="Assets\Scripts\Fog.cs" />
+    <Compile Include="Assets\Scripts\Utils\Fog.cs" />
+    <Compile Include="Assets\Scripts\Biomes\TreeFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\PostProcessing.shader" />
