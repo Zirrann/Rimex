@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    [CreateAssetMenu(menuName = "Inventory Item Data")]
+    [CreateAssetMenu(menuName = "Inventory Item")]
     public class InventoryItedmData : ScriptableObject
     {
-        public string id;
-        public string displayName;
-        public Sprite icon;
-        public GameObject prefab;
+        public string Id;
+        public string DisplayName;
+        public int maxSizeStack;
+        public Sprite Icon;
     }
 }

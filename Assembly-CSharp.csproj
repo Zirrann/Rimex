@@ -62,7 +62,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Utils\GameInitializer.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\HighHillsBiome.cs" />
+    <Compile Include="Assets\Scripts\InventorySystem.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeType.cs" />
+    <Compile Include="Assets\Scripts\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\Chunks\Chunk.cs" />
     <Compile Include="Assets\Scripts\Chunks\ChunkObject.cs" />
     <Compile Include="Assets\Scripts\Utils\Properties.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="Assets\Scripts\Chunks\ChunkManager.cs" />
     <Compile Include="Assets\Scripts\Biomes\BiomeTypes\MountainsBiome.cs" />
     <Compile Include="Assets\Scripts\Biomes\Biomes.cs" />
+    <Compile Include="Assets\Scripts\ItemPickUp.cs" />
+    <Compile Include="Assets\Scripts\InventoryHolder.cs" />
     <Compile Include="Assets\Scripts\Utils\Fog.cs" />
     <Compile Include="Assets\Scripts\Biomes\TreeFactory.cs" />
   </ItemGroup>
