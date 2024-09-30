@@ -41,8 +41,7 @@ public class InventorySystem
                     OnInvetorySlotChanged?.Invoke(invSlot);
                     return true;
                 }
-            }
-           
+            }  
         }
         
         if (HasFreeSlot(out InventorySlot newSlot)) 
@@ -52,7 +51,7 @@ public class InventorySystem
             return true;
         }
 
-        return true;
+        return false;
     }
 
     private bool HasFreeSlot(out InventorySlot slot)
@@ -65,7 +64,7 @@ public class InventorySystem
     {
         slots = InventorySlots.Where(i => i.ItemData == item).ToList();
 
-        return slots.Count > 1;
+        return slots.Count > 0;
     }
 
 }
