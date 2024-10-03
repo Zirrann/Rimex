@@ -58,4 +58,29 @@ public class InventorySlot
         return stackSize + amountToAdd <= itemData.maxSizeStack;
     }
 
+    public void AssignItem(InventorySlot invSlot)
+    {
+        if(itemData == invSlot.itemData) AddToStack(invSlot.stackSize);
+        else 
+        { 
+            itemData = invSlot.itemData;
+            stackSize = 0;
+            AddToStack(invSlot.stackSize);
+        }
+    }
+
+    public bool SplitStack(out InventorySlot splitSlot) 
+    {
+        if (stackSize <= 1) 
+        { 
+            splitSlot = null;
+            return false;
+        }
+
+        int halfStack = stackSize / 2;
+        splitSlot = new InventorySlot(itemData, stackSize - halfStack);
+        RemoveFromStack(halfStack);
+
+        return true;
+    }
 }

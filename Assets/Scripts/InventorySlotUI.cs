@@ -14,7 +14,7 @@ namespace Assets.Scripts
 
         private Button button;
 
-        public InventorySlot AssingInventorySlot => assingnedInventorySlot;
+        public InventorySlot AssignedInventorySlot => assingnedInventorySlot;
         public InventoryDisplay ParentDisplay { get; private set; }
 
         private void Awake()

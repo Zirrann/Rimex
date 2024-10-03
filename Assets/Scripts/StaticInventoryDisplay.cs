@@ -27,9 +27,13 @@ public class StaticInventoryDisplay : InventoryDisplay
     public override void AssingSlot(InventorySystem invSystem)
     {
         slotsDictionary = new Dictionary<InventorySlotUI, InventorySlot>();
+        Debug.Log($"{slots.Length}");
 
-        for (int i = 0; i < inventorySystem.InventorySize; i++)
+        for (int i = 0; i < inventorySystem.InventorySize ; i++)
         {
+            Debug.Log(i);
+            if (slots[i] is null) Debug.Log("null");
+            if (inventorySystem.InventorySlots[i] is null) Debug.Log("inv null");
             slotsDictionary.Add(slots[i], inventorySystem.InventorySlots[i]);
             slots[i].Init(inventorySystem.InventorySlots[i]);
         }
